@@ -14,6 +14,45 @@ const Booking = () => {
         .then(data=>setBookings(data))
     },[])
 
+    const handleDelete = id =>{
+        const proced = confirm('are you sure you want to delete')
+        if(proced){
+            fetch(`http://localhost:1000/booking/${id}`,{
+                method: 'DELETE'
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                if(data.deletedCount > 0 ){
+                    alert('delete successful')
+                    const remaining = bookings.filter(booking=>booking._id !==id);
+                    setBookings(remaining);
+                }
+            })
+        }
+    }
+
+    const handleConfirm = id =>{
+        fetch(`http://localhost:1000/booking/${id}`,{
+            method:'PATCH',
+            headers:{
+                'content-type':'application/json'
+            },
+            body:JSON.stringify({status: 'confirm'})
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data);
+            if(data.modifiedCount){
+                // modify
+                const remaining = bookings.filter(booking =>booking._id !==id);
+                const updated = bookings.find(booking =>booking._id === id);
+                updated.status = 'confirm';
+                const newBooking = [updated, ...remaining];
+                setBookings(newBooking);
+            }
+        })
+    }
+
 
     return (
         <div className="mt-10">
@@ -31,12 +70,16 @@ const Booking = () => {
         <th>Service</th>
         <th>Date</th>
         <th>Price</th>
-        <th>Details</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
      {
-        bookings.map(booking=><BookingRow key={booking._id} booking={booking}></BookingRow>)
+        bookings.map(booking=><BookingRow key={booking._id} 
+            booking={booking}
+            handleDelete={handleDelete}
+            handleConfirm={handleConfirm}
+            ></BookingRow>)
      }
     </tbody>
     

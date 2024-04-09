@@ -1,19 +1,10 @@
 /* eslint-disable react/prop-types */
 
 
-const BookingRow = ({booking}) => {
-    const {_id,date,img,price,service} = booking;
+const BookingRow = ({booking,handleDelete,handleConfirm}) => {
+    const {_id,date,img,price,service,status} = booking;
 
-    const handleDelete = id =>{
-        const proced = confirm('are you sure you want to delete')
-        if(proced){
-            fetch(``)
-            .then(res=>res.json())
-            .then(data=>{
-                console.log(data);
-            })
-        }
-    }
+   
     return (
              <tr>
         <th>
@@ -32,7 +23,10 @@ const BookingRow = ({booking}) => {
         <td>{date}</td>
         <td>${price}</td>
         <th>
-          <button className="btn btn-ghost btn-xs">details</button>
+          {
+             status === 'confirm' ? <span className="text-bold  text-green-500">Confirmed</span> :
+             <button onClick={()=>handleConfirm(_id)} className="btn  btn-ghost btn-xs">Please Confirm</button>
+          }
         </th>
       </tr>
     );
