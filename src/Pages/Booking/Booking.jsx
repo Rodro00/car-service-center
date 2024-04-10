@@ -12,7 +12,7 @@ const Booking = () => {
         fetch(url)
         .then(res=>res.json())
         .then(data=>setBookings(data))
-    },[])
+    },[url])
 
     const handleDelete = id =>{
         const proced = confirm('are you sure you want to delete')

@@ -1,9 +1,46 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import img from '../../assets/login/login.svg';
+import { useContext } from 'react';
+import { AuthContext } from '../AuthProvider/AuthProvider';
+import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
+import app from '../../firebase/firebase.config';
 
 const Login = () => {
+
+  const { signIn } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const auth = getAuth(app)
+  const provider = new GoogleAuthProvider();
+
+  const handleGoogleLogin = () =>{
+    signInWithPopup(auth,provider)
+    .then(result =>{
+      console.log(result.user);
+      navigate(location.state ? location.state : '/')
+    })
+    .catch(error=>{
+      console.error(error);
+    })
+  }
+
     const handleLogin = event =>{
         event.preventDefault();
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        console.log(email,password);
+
+        signIn(email,password)
+        .then(result=>{
+          console.log(result.user);
+          navigate(location?.state ? location.state : '/')
+        })
+        .catch(error=>{
+          console.error(error);
+        })
+
     }
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -33,6 +70,7 @@ const Login = () => {
             <input className='btn btn-primary' type="submit" value="Login" />
         </div>
       </form>
+      <div className='text-center'><button onClick={handleGoogleLogin} className=' text-red-600'>By Google</button></div>
       <p className='p-4 text-center'>New Users Please? <Link to='/sign' className='text-orange-500 font-semibold'>Sign Up</Link></p>
     </div>
   </div>
