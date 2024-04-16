@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 import app from '../../firebase/firebase.config';
+import axios from 'axios';
 
 const Login = () => {
 
@@ -35,7 +36,14 @@ const Login = () => {
         signIn(email,password)
         .then(result=>{
           console.log(result.user);
-          navigate(location?.state ? location.state : '/')
+          const loggedInUser = { email };
+          axios.post('http://localhost:1000/jwt',loggedInUser, {withCredentials: true})
+          .then(res=>{
+            console.log(res.data);
+            if(res.data.success){
+                navigate(location?.state ? location.state : '/')
+            }
+          })
         })
         .catch(error=>{
           console.error(error);

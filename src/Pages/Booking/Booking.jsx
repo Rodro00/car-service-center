@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import BookingRow from "./BookingRow";
+import Swal from "sweetalert2";
+// import axios from "axios";
 
 const Booking = () => {
     const {user} = useContext(AuthContext);
@@ -9,6 +11,10 @@ const Booking = () => {
     const [bookings,setBookings] = useState([]);
 
     useEffect(()=>{
+        // axios.get(url, {withCredentials: true})
+        // .then(res=>{
+        //     setBookings(res.data);
+        // })
         fetch(url)
         .then(res=>res.json())
         .then(data=>setBookings(data))
@@ -23,7 +29,11 @@ const Booking = () => {
             .then(res=>res.json())
             .then(data=>{
                 if(data.deletedCount > 0 ){
-                    alert('delete successful')
+                    Swal.fire({
+                        title: "Good job!",
+                        text: "Deleted success",
+                        icon: "success"
+                      });
                     const remaining = bookings.filter(booking=>booking._id !==id);
                     setBookings(remaining);
                 }
