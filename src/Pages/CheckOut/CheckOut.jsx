@@ -40,8 +40,7 @@ const CheckOut = () => {
         console.log(data);
         if(data.insertedId){
           Swal.fire({
-            title: "Good job!",
-            text: "You clicked the button!",
+            text: "Your Order Confirm!",
             icon: "success"
           });
         }
@@ -49,8 +48,20 @@ const CheckOut = () => {
 
     }
     return (
-      <div className="mt-10">
-        <h1 className="bg-violet-400 text-center mb-6 rounded-lg font-semibold  text-2xl ">{title}</h1>
+      <div className="mt-3 ">
+        {/* <div className="flex rounded-lg justify-center w-full p-1">
+        <h1 className="text-center p-2 rounded-lg text-white font-semibold justify-center bg-[#FF3811]">Home/CheckOut</h1>
+        </div> */}
+        <div className="carousel w-full">
+  <div id="item1" className="carousel-item w-full rounded-lg ">
+    <img src={img} className="w-full h-[350px] rounded-lg " />
+    <div className="absolute h-[350px] rounded-xl justify-left flex items-center   gap-4 bg-gradient-to-r from-[#151515] to-[rgba(21,21,21,0)]">
+        <div className='text-white font-semibold space-y-4 w-2/5 pl-12 pt-4'>
+            <h2 className='text-4xl'>{title}</h2>
+        </div>
+    </div>
+  </div> 
+</div> 
         <form onSubmit={handleBookService} >
         <div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
         <div className="form-control">
@@ -63,7 +74,7 @@ const CheckOut = () => {
           <label className="label">
             <span className="label-text">Date</span>
           </label>
-          <input type="date" placeholder="password" name="date" className="input input-bordered" required />
+          <input type="date" placeholder="password" name="date" className="input input-bordered" />
         </div>
         <div className="form-control">
           <label className="label">
@@ -73,13 +84,13 @@ const CheckOut = () => {
         </div>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Due Amount </span>
+            <span className="label-text">Cost </span>
           </label>
           <input type="text" defaultValue={'$'+price} className="input input-bordered" required />
         </div>
         </div>
         <div className="form-control mt-6">
-          <input className="btn btn-outline btn-warning btn-block" type="submit" value="check out" />
+          <input className="btn btn-outline mb-4 bg-[#FF3811] btn-block" type="submit" value="Confirm Order" />
         </div>
         </form>
       </div>

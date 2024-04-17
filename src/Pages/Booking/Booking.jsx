@@ -30,7 +30,6 @@ const Booking = () => {
             .then(data=>{
                 if(data.deletedCount > 0 ){
                     Swal.fire({
-                        title: "Good job!",
                         text: "Deleted success",
                         icon: "success"
                       });
